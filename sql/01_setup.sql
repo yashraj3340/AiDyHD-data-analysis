@@ -120,14 +120,13 @@ CREATE OR REPLACE VIEW adhd_clean AS
 SELECT id,
     Age,
     CASE
-        WHEN Gender = 1 THEN 'Male'
+        WHEN Gender = '1' THEN 'Male'
         ELSE 'Female'
     END AS Gender,
     Educational_Level,
     Family_History,
     Sleep_Hours,
     Daily_Activity_Hours,
-    -- Computed cluster scores
     (
         Q1_1 + Q1_2 + Q1_3 + Q1_4 + Q1_5 + Q1_6 + Q1_7 + Q1_8 + Q1_9
     ) AS Hyperactivity_Index,
@@ -137,7 +136,6 @@ SELECT id,
     (
         Q1_1 + Q1_2 + Q1_3 + Q1_4 + Q1_5 + Q1_6 + Q1_7 + Q1_8 + Q1_9 + Q2_1 + Q2_2 + Q2_3 + Q2_4 + Q2_5 + Q2_6 + Q2_7 + Q2_8 + Q2_9
     ) AS Total_Severity,
-    -- Readable diagnosis label
     CASE
         Diagnosis_Class
         WHEN 0 THEN 'No ADHD'
@@ -146,14 +144,12 @@ SELECT id,
         WHEN 3 THEN 'Combined Type'
     END AS Diagnosis_Label,
     Diagnosis_Class,
-    -- Life stage segmentation
     CASE
         WHEN Age BETWEEN 3 AND 4 THEN 'Early Childhood (3-4)'
         WHEN Age BETWEEN 5 AND 14 THEN 'Pediatric (5-14)'
         WHEN Age BETWEEN 15 AND 18 THEN 'Adolescent (15-18)'
         WHEN Age BETWEEN 19 AND 55 THEN 'Adult (19-55)'
     END AS Life_Stage,
-    -- Age band (pediatric)
     CASE
         WHEN Age BETWEEN 5 AND 6 THEN '5-6 Early'
         WHEN Age BETWEEN 7 AND 8 THEN '7-8 Young'
@@ -168,7 +164,6 @@ SELECT id,
     Daily_Coffee_Tea_Consumption,
     Learning_Difficulties,
     Anxiety_Depression_Levels,
-    -- Risk flags
     CASE
         WHEN Sleep_Hours < 7 THEN 1
         ELSE 0
