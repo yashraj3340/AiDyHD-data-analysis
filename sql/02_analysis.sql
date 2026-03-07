@@ -24,17 +24,17 @@ SELECT COUNT(*) AS total_patients,
     ) AS overall_prevalence_pct,
     SUM(
         CASE
-            WHEN Gender = 1 THEN 1
+            WHEN Gender = 'Male' THEN 1
             ELSE 0
         END
     ) AS male_count,
     SUM(
         CASE
-            WHEN Gender = 2 THEN 1
+            WHEN Gender = 'Female' THEN 1
             ELSE 0
         END
     ) AS female_count
-FROM adhd_patients;
+FROM adhd_clean;
 -- 2b. Overview by life stage
 SELECT Life_Stage,
     COUNT(*) AS patients,
